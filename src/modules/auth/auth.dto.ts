@@ -1,0 +1,18 @@
+import { GENDER } from "../../utils/common/enum";
+
+export interface RegisterDto {
+
+    fullName?: string; //virtual
+    email: string;
+    password: string;
+
+    phoneNumber?: string;
+
+    gender: GENDER;
+
+
+}
+
+export interface UpdateUserDto extends Partial<RegisterDto>{
+    
+}
