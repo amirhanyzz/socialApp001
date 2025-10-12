@@ -11,7 +11,7 @@ function bootstrap(app, express) {
         res.status(404).json({ message: "Not Found", success: false });
     });
     app.use((error, req, res, next) => {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             message: error.message,
             success: false,
             data: error.errorDetails

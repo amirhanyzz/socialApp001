@@ -23,5 +23,13 @@
     "@types/node": "^24.5.2",
     "@types/nodemailer": "^7.0.2",
     "concurrently": "^9.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amirhanyzz/socialApp.1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amirhanyzz/socialApp.1/issues"
+  },
+  "homepage": "https://github.com/amirhanyzz/socialApp.1#readme"
 }

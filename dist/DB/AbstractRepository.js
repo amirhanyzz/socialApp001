@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AbstractRepository = void 0;
 class AbstractRepository {
-    model;
     constructor(model) {
         this.model = model;
     }

@@ -1,8 +1,9 @@
-import {Schema} from "mongoose";
+import {Error, Schema} from "mongoose";
 import { Types } from "mongoose";
 import { IUser } from "../../../utils/common/interface";
 import { SYS_ROLE, USER_AGENT ,GENDER } from "../../../utils/common/enum";
 import { boolean } from "zod";
+import { sendEmail } from "../../../utils/email";
       
 
 
@@ -80,8 +81,20 @@ userSchema.virtual("fullName").get(function(){
 })
 
 
+ userSchema.pre('save',function(next){
+    console.log("pre middleware");
+    console.log({this:this});
+    next()
+ })
 
-
-
+ userSchema.pre("save",async function(next){
+   await sendEmail({
+        to: this.email,
+        subject: "Verify your email",
+        text: "Please verify your email address.",
+        html: `<h1>this is your ${this.otp}.</h1>`
+    })  
+}) 
 
 export default userSchema
+ 

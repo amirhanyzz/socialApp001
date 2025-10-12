@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userSchema = void 0;
 const mongoose_1 = require("mongoose");
 const enum_1 = require("../../../utils/common/enum");
+const email_1 = require("../../../utils/email");
 exports.userSchema = new mongoose_1.Schema({
     firstName: {
         type: String,
@@ -69,5 +70,18 @@ exports.userSchema.virtual("fullName").get(function () {
     const [firstName, lastName] = fullName.split(" ");
     this.firstName = firstName;
     this.lastName = lastName;
+});
+exports.userSchema.pre('save', function (next) {
+    console.log("pre middleware");
+    console.log({ this: this });
+    next();
+});
+exports.userSchema.pre("save", async function (next) {
+    await (0, email_1.sendEmail)({
+        to: this.email,
+        subject: "Verify your email",
+        text: "Please verify your email address.",
+        html: `<h1>this is your ${this.otp}.</h1>`
+    });
 });
 exports.default = exports.userSchema;
