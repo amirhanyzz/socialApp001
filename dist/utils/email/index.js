@@ -44,6 +44,7 @@ const sendEmail = async (mailOptions) => {
             pass: dev_config_1.devConfig.EMAIL_PASS
         }
     });
+    mailOptions.from = `socialApp <${dev_config_1.devConfig.EMAIL_USER}>`;
     await transport.sendMail(mailOptions);
 };
 exports.sendEmail = sendEmail;

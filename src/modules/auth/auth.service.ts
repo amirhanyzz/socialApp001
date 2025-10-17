@@ -1,10 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
 import { RegisterDto } from "./auth.dto";
-import { ConflictException,BadRequestException } from "../../utils/error";
+import { ConflictException,BadRequestException,NotFoundException } from "../../utils/error";
 import { UserRepository } from "../../DB";
 import { AuthFactoryService } from "./factory";
-import { sendEmail } from "../../utils/email";
-import { devConfig } from "../../config/env/dev.config";
+import { VerifyAccountDto } from "./auth.dto";
+
 class AuthService {
 // private DBPostService = new DBPostService<IUser>()
 
@@ -36,15 +36,6 @@ class AuthService {
 
   // save into DB
  const createdUser = await this.userRepository.create(user)
-// send email
-await sendEmail({
-   from: devConfig.EMAIL_USER,
-   to: registerDto.email,
-   subject: "Confirm Email",
-   html: `<h1>Confirm Email</h1>
-   <h2>your otp is ${user.otp}</h2>
-   <p>Click on the link to confirm your email</p>` 
-})
 
 
 
@@ -58,12 +49,48 @@ await sendEmail({
   .json({
     message:"User created successfully",
     success:true,
-    data:createdUser
-  })
+    data:{
+      id:createdUser._id,
+     }
+  })  }
+
+verifyAccount=async(req:Request,res:Response,next:NextFunction)=>{
+    // get data from request
+    const verifyAccountDto: VerifyAccountDto = req.body
+    // validate data
+    if(!verifyAccountDto.email || !verifyAccountDto.otp){
+        throw new BadRequestException("email and otp are required")
+    }
+
+    // check if user is already exists
+    const UesrExist = await this.userRepository.exsit({email:verifyAccountDto.email})
+
+    if(!UesrExist){
+        throw new NotFoundException("User not found")
+    }
+
+    if(UesrExist.otp !== verifyAccountDto.otp){
+        throw new BadRequestException("Invalid otp")
+    }
+
+    if(!UesrExist.otpExpiryAt || UesrExist.otpExpiryAt < new Date()){
+        throw new BadRequestException("Otp expired")
+    }
+
 
 
 
   }
+
+
+
+
+
+
+
+
+
+
 
 
 

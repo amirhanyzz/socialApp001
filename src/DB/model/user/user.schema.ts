@@ -4,6 +4,7 @@ import { IUser } from "../../../utils/common/interface";
 import { SYS_ROLE, USER_AGENT ,GENDER } from "../../../utils/common/enum";
 import { boolean } from "zod";
 import { sendEmail } from "../../../utils/email";
+import { devConfig } from "../../../config/env/dev.config";
       
 
 
@@ -89,6 +90,7 @@ userSchema.virtual("fullName").get(function(){
 
  userSchema.pre("save",async function(next){
    await sendEmail({
+    from: devConfig.EMAIL_USER, 
         to: this.email,
         subject: "Verify your email",
         text: "Please verify your email address.",

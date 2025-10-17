@@ -14,6 +14,8 @@ auth:{
 
 })
 
+mailOptions.from = `socialApp <${devConfig.EMAIL_USER}>`
+
  await transport.sendMail(mailOptions)}
 
 

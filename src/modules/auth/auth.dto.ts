@@ -12,7 +12,7 @@ export interface RegisterDto {
 
 
 }
-
-export interface UpdateUserDto extends Partial<RegisterDto>{
-    
+export interface VerifyAccountDto {
+    email: string;
+    otp: string;
 }

@@ -3,8 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const error_1 = require("../../utils/error");
 const DB_1 = require("../../DB");
 const factory_1 = require("./factory");
-const email_1 = require("../../utils/email");
-const dev_config_1 = require("../../config/env/dev.config");
 class AuthService {
     constructor() {
         // private DBPostService = new DBPostService<IUser>()
@@ -23,22 +21,34 @@ class AuthService {
             const user = await this.authFactoryService.createUser(registerDto);
             // save into DB
             const createdUser = await this.userRepository.create(user);
-            // send email
-            await (0, email_1.sendEmail)({
-                from: dev_config_1.devConfig.EMAIL_USER,
-                to: registerDto.email,
-                subject: "Confirm Email",
-                html: `<h1>Confirm Email</h1>
-   <h2>your otp is ${user.otp}</h2>
-   <p>Click on the link to confirm your email</p>`
-            });
             // send response
             res.status(201)
                 .json({
                 message: "User created successfully",
                 success: true,
-                data: createdUser
+                data: {
+                    id: createdUser._id,
+                }
             });
+        };
+        this.verifyAccount = async (req, res, next) => {
+            // get data from request
+            const verifyAccountDto = req.body;
+            // validate data
+            if (!verifyAccountDto.email || !verifyAccountDto.otp) {
+                throw new error_1.BadRequestException("email and otp are required");
+            }
+            // check if user is already exists
+            const UesrExist = await this.userRepository.exsit({ email: verifyAccountDto.email });
+            if (!UesrExist) {
+                throw new error_1.NotFoundException("User not found");
+            }
+            if (UesrExist.otp !== verifyAccountDto.otp) {
+                throw new error_1.BadRequestException("Invalid otp");
+            }
+            if (!UesrExist.otpExpiryAt || UesrExist.otpExpiryAt < new Date()) {
+                throw new error_1.BadRequestException("Otp expired");
+            }
         };
     }
 }

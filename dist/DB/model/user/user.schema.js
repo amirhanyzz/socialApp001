@@ -4,6 +4,7 @@ exports.userSchema = void 0;
 const mongoose_1 = require("mongoose");
 const enum_1 = require("../../../utils/common/enum");
 const email_1 = require("../../../utils/email");
+const dev_config_1 = require("../../../config/env/dev.config");
 exports.userSchema = new mongoose_1.Schema({
     firstName: {
         type: String,
@@ -78,6 +79,7 @@ exports.userSchema.pre('save', function (next) {
 });
 exports.userSchema.pre("save", async function (next) {
     await (0, email_1.sendEmail)({
+        from: dev_config_1.devConfig.EMAIL_USER,
         to: this.email,
         subject: "Verify your email",
         text: "Please verify your email address.",
