@@ -84,11 +84,15 @@ userSchema.virtual("fullName").get(function(){
 
  userSchema.pre('save',function(next){
     console.log("pre middleware");
+    // ana saybo 3shan ashof eldata 
     console.log({this:this});
     next()
  })
 
  userSchema.pre("save",async function(next){
+    if(this.userAgent != USER_AGENT.google && this.isNew ===true)
+
+
    await sendEmail({
     from: devConfig.EMAIL_USER, 
         to: this.email,

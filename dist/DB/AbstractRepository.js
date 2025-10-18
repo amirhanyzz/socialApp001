@@ -8,6 +8,7 @@ class AbstractRepository {
     // create
     async create(item) {
         const doc = new this.model(item);
+        doc.isNew;
         return await doc.save();
     }
     // exsit

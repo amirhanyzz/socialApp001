@@ -42,4 +42,5 @@ const middleware_1 = require("../../middleware");
 const authValidation = __importStar(require("./auth.validation"));
 const router = (0, express_1.Router)();
 router.post("/register", (0, middleware_1.isValid)(authValidation.registerSchema), auth_service_1.default.register);
+router.post("/verify-account", auth_service_1.default.verifyAccount);
 exports.default = router;

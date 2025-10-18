@@ -9,7 +9,7 @@ class UserService {
             if (!user) {
                 return res.status(404).json({ message: "User not found" });
             }
-            return res.status(200).json({ message: "done", success: true, data: { user } });
+            return res.status(200).json({ message: "done", success: true, data: { user: req.user } });
         };
     }
 }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UnauthorizedException = exports.NotFoundException = exports.BadRequestException = exports.ConflictException = exports.AppError = void 0;
+exports.ForbiddenException = exports.UnauthorizedException = exports.NotFoundException = exports.BadRequestException = exports.ConflictException = exports.AppError = void 0;
 class AppError extends Error {
     constructor(message, statusCode, errorDetails) {
         super(message);
@@ -33,3 +33,9 @@ class UnauthorizedException extends AppError {
     }
 }
 exports.UnauthorizedException = UnauthorizedException;
+class ForbiddenException extends AppError {
+    constructor(message, errorDetails) {
+        super(message, 403, errorDetails);
+    }
+}
+exports.ForbiddenException = ForbiddenException;

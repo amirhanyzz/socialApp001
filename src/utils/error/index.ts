@@ -36,7 +36,11 @@ export class UnauthorizedException extends AppError{
     }
 }
 
-
+export class ForbiddenException extends AppError{
+    constructor(message:string,errorDetails?:Record<string, any >[]){
+        super(message,403,errorDetails)
+    }
+}
 
 
 

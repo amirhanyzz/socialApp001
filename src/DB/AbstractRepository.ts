@@ -8,6 +8,7 @@ export abstract class AbstractRepository<T> {
   // create
   async create(item: Partial<T>) {
     const doc = new this.model(item)
+    doc.isNew
     return await doc.save()
   }
 
@@ -34,8 +35,8 @@ export abstract class AbstractRepository<T> {
   // update
   async update(
     filter: RootFilterQuery<T>,
-    update: Partial<T>, // <T> is the type of the document  //partial is used to update only the fields that are provided
-    options: MongooseUpdateQueryOptions
+    update: UpdateQuery<T>, // <T> is the type of the document  //partial is used to update only the fields that are provided
+    options?: MongooseUpdateQueryOptions
   ) {
     return await this.model.updateOne(filter, update, options)
   }

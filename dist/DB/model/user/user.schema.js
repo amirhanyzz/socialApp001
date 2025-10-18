@@ -74,16 +74,18 @@ exports.userSchema.virtual("fullName").get(function () {
 });
 exports.userSchema.pre('save', function (next) {
     console.log("pre middleware");
+    // ana saybo 3shan ashof eldata 
     console.log({ this: this });
     next();
 });
 exports.userSchema.pre("save", async function (next) {
-    await (0, email_1.sendEmail)({
-        from: dev_config_1.devConfig.EMAIL_USER,
-        to: this.email,
-        subject: "Verify your email",
-        text: "Please verify your email address.",
-        html: `<h1>this is your ${this.otp}.</h1>`
-    });
+    if (this.userAgent != enum_1.USER_AGENT.google && this.isNew === true)
+        await (0, email_1.sendEmail)({
+            from: dev_config_1.devConfig.EMAIL_USER,
+            to: this.email,
+            subject: "Verify your email",
+            text: "Please verify your email address.",
+            html: `<h1>this is your ${this.otp}.</h1>`
+        });
 });
 exports.default = exports.userSchema;
