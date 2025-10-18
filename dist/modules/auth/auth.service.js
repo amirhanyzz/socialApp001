@@ -5,6 +5,7 @@ const DB_1 = require("../../DB");
 const factory_1 = require("./factory");
 const auth_provider_1 = require("./provider/auth.provider");
 const utils_1 = require("../../utils");
+const token_1 = require("../../utils/token");
 class AuthService {
     constructor() {
         // private DBPostService = new DBPostService<IUser>()
@@ -51,6 +52,9 @@ class AuthService {
                 throw new error_1.ForbiddenException("Invalid credentials");
             }
             // generate token
+            const accessToken = (0, token_1.generateToken)({ payload: { _id: userExist._id, role: userExist.role },
+                option: { expiresIn: "1h" } });
+            return res.status(200).json({ message: "done", success: true, data: { accessToken } });
         };
     }
 }

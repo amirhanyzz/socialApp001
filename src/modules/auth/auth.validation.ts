@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { GENDER,USER_AGENT } from "../../utils/common/enum/index"
 import { RegisterDto } from "./auth.dto";
-
+import { LoginDto } from "./auth.dto";
 export const registerSchema = z.object<RegisterDto>({
     fullName: z.string().min(3, "Name must be at least 3 characters long")as unknown as string ,
     email: z.email("Invalid email")as unknown as string,
@@ -12,4 +12,11 @@ export const registerSchema = z.object<RegisterDto>({
 
 
 
+})
+
+
+
+export const loginSchema = z.object<LoginDto>({
+    email: z.email("Invalid email")as unknown as string,
+    password: z.string().min(6, "Password must be at least 6 characters long")as unknown as string,
 })

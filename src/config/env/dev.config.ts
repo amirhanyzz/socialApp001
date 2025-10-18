@@ -16,13 +16,13 @@ export const devConfig = {
 
     CLOUD_NAME: process.env.CLOUD_NAME,
     API_KEY: process.env.API_KEY,
-    API_SECRET: process.env.API_SECRET,  
-    
-    
-    EMAIL_USER: process.env.EMAIL_USER,
-    EMAIL_PASS: process.env.EMAIL_PASS, 
+    API_SECRET: process.env.API_SECRET,
 
-    JWT_SECRET: process.env.JWT_SECRET ,   
+
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_PASS: process.env.EMAIL_PASS,
+
+    JWT_SECRET: process.env.JWT_SECRET ,
 
 
 

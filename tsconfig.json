@@ -22,6 +22,7 @@
     // Stricter Type Checking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+    "strictNullChecks": true, ///////////////////////
     // Style Options
     // "noImplicitReturns": true,
     // "noImplicitOverride": true,
@@ -30,7 +31,7 @@
     // "noFallthroughCasesInSwitch": true,
     // "noPropertyAccessFromIndexSignature": true,
     // Recommended Options
-    "strict": true,
+    "strict": false,
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

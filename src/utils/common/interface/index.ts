@@ -1,5 +1,7 @@
 import { GENDER, SYS_ROLE, USER_AGENT } from "../enum";
-
+import { Request } from "express";
+import jwt from "jsonwebtoken";
+import { ObjectId } from "mongoose";
 export interface IUser{
     firstName: string;
     lastName: string;
@@ -16,4 +18,39 @@ export interface IUser{
     updatedAt: Date; 
     otp?: string;
     otpExpiryAt?: Date;
+}
+export interface  IUser{
+    
+_id:ObjectId
+}
+
+
+
+
+
+
+
+
+
+
+
+// export interface IPayload extends jwt.JwtPayload{
+
+
+
+//     _id:string
+//     role:string
+// }
+declare module "jsonwebtoken"{
+    interface JwtPayload{
+        _id:string
+        role:string
+    }
+}
+
+
+declare module "express"{
+    interface Request{
+        user:IUser
+    }
 }
