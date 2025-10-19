@@ -31,7 +31,7 @@ exports.postSchema = new mongoose_1.Schema({
             return true;
         }
     },
-    likes: [
+    reaction: [
         reactionSchema
     ],
     attachments: {

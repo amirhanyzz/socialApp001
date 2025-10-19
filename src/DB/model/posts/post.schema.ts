@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
-import { IPost } from "../../../utils/common/interface";
+import { IPost, IReaction } from "../../../utils/common/interface";
 import { REACTION } from "../../../utils/common/enum";
-const reactionSchema = new Schema({
+const reactionSchema = new Schema<IReaction>({
     reaction:{
         type:Number,
         enum:REACTION,
@@ -29,7 +29,7 @@ export const postSchema = new Schema<IPost>({
             return true
         }
     },
-    likes:[
+    reaction:[
        reactionSchema
     ],
     attachments:{

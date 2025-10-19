@@ -1,6 +1,5 @@
 import { GENDER, SYS_ROLE, USER_AGENT } from "../enum";
-import { Request } from "express";
-import jwt from "jsonwebtoken";
+import { REACTION } from "../enum";
 import { ObjectId } from "mongoose";
 export interface IUser{
     firstName: string;
@@ -8,6 +7,7 @@ export interface IUser{
     fullName?: string; //virtual
     email: string;
     password: string;
+    _id: ObjectId;
     credentialUpdatedAt: Date;
     phoneNumber?: string;
     role: SYS_ROLE;
@@ -25,13 +25,18 @@ export interface IAttachment{
     url:string
     id:string
  }
+
+ export interface IReaction{
+    userId:ObjectId
+    reaction:REACTION
+ }
 export interface IPost{
     
     
     userId:ObjectId
     content:string
-    likes:ObjectId[]
-attachments?:IAttachment[]
+    reaction:IReaction[]
+    attachments?:IAttachment[]
 
 
 }

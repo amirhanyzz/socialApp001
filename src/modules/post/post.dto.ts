@@ -1,5 +1,5 @@
 export interface CreatePostDto{
     content:string
-    attachment?:any[]
-    
+    attachment?:string[]
+    userId:string
 }
