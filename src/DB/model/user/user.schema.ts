@@ -1,8 +1,6 @@
-import {Error, Schema} from "mongoose";
-import { Types } from "mongoose";
+import {Schema} from "mongoose";
 import { IUser } from "../../../utils/common/interface";
 import { SYS_ROLE, USER_AGENT ,GENDER } from "../../../utils/common/enum";
-import { boolean } from "zod";
 import { sendEmail } from "../../../utils/email";
 import { devConfig } from "../../../config/env/dev.config";
       
@@ -46,15 +44,15 @@ export const userSchema = new Schema<IUser>({
         maxlength:20,
         trim:true
     },
-    role:{type:String,
+    role:{type:Number,
         enum:SYS_ROLE,
         default:SYS_ROLE.USER
     },
-    gender:{type:String,
+    gender:{type:Number,
         enum:GENDER,
         default:GENDER.MALE
     },
-    userAgent:{type:String,
+    userAgent:{type:Number,
         enum:USER_AGENT,
         default:USER_AGENT.local
     },

@@ -19,28 +19,24 @@ export interface IUser{
     otp?: string;
     otpExpiryAt?: Date;
 }
-export interface  IUser{
+
+
+export interface IAttachment{
+    url:string
+    id:string
+ }
+export interface IPost{
     
-_id:ObjectId
+    
+    userId:ObjectId
+    content:string
+    likes:ObjectId[]
+attachments?:IAttachment[]
+
+
 }
 
 
-
-
-
-
-
-
-
-
-
-// export interface IPayload extends jwt.JwtPayload{
-
-
-
-//     _id:string
-//     role:string
-// }
 declare module "jsonwebtoken"{
     interface JwtPayload{
         _id:string
@@ -54,3 +50,6 @@ declare module "express"{
         user:IUser
     }
 }
+
+
+
