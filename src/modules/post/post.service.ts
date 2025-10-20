@@ -2,6 +2,8 @@ import { PostRepository } from "../../DB/model/posts/post.Repository";
 import { NextFunction, Request, Response } from "express";
 import { CreatePostDto } from "./post.dto";
 import { PostFactoryService } from "./factory";
+import {  BadRequestException, NotFoundException } from "../../utils/error";
+import console from "console";
 
 
 
@@ -19,7 +21,7 @@ class PostService{
         constructor(){}
 
 
-    createPost =async(req:Request,res:Response,next:NextFunction)=>{
+   public createPost =async(req:Request,res:Response,next:NextFunction)=>{
 
 
 
@@ -51,9 +53,51 @@ class PostService{
 
     }
 
+public reactToPost =async(req:Request,res:Response,next:NextFunction)=>{
+
+ //get data from request
+
+const {id} = req.params
+const {reaction} = req.body
+const userId = req.user._id
+//check post exists
+const postExists = await this.postRepository.exsit({ _id: id })
+if (!postExists) {
+    throw new NotFoundException("Post not found")
+}
+
+//check if user already reacted to post
+const userReactedIndex = postExists.reaction.findIndex((reaction) => {
+   return reaction.userId.toString() == userId.toString()
+})
+
+
+if(userReactedIndex == -1){
+    
+    
+
+//repository>> react to post
+await this.postRepository.update(
+    { _id: id },
+{ $push: { reaction: {reaction,userId } } })
+
+}
+
+
+else{
+    await this.postRepository.update(
+        { _id: id ,'reaction.userId':userId},
+    {  "reaction.$.reaction":reaction })
+}
 
 
 
+
+//send response
+return res.sendStatus(204)
+
+
+}
 
 
 

@@ -8,4 +8,5 @@ const middleware_1 = require("../../middleware");
 const post_service_1 = __importDefault(require("./post.service"));
 const router = (0, express_1.Router)();
 router.post("/createPost", (0, middleware_1.isAuthenticated)(), post_service_1.default.createPost);
+router.patch("/reactToPost/:id", (0, middleware_1.isAuthenticated)(), post_service_1.default.reactToPost);
 exports.default = router;
