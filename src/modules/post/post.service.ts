@@ -1,16 +1,16 @@
-import { PostRepository } from "../../DB/model/posts/post.Repository";
 import { NextFunction, Request, Response } from "express";
-import { CreatePostDto } from "./post.dto";
+import { PostRepository } from "../../DB";
+import { NotFoundException } from "../../utils/error";
 import { PostFactoryService } from "./factory";
-import {  BadRequestException, NotFoundException } from "../../utils/error";
-import console from "console";
+import { CreatePostDto } from "./post.dto";
+import { REACTION } from "../../utils";
 
 
 
 
 
 
-class PostService{
+class PostService{  
 
 
 
@@ -54,7 +54,7 @@ class PostService{
     }
 
 public reactToPost =async(req:Request,res:Response,next:NextFunction)=>{
-
+ 
  //get data from request
 
 const {id} = req.params
@@ -71,19 +71,28 @@ const userReactedIndex = postExists.reaction.findIndex((reaction) => {
    return reaction.userId.toString() == userId.toString()
 })
 
-
+//if user has not reacted to post
 if(userReactedIndex == -1){
-    
-    
-
 //repository>> react to post
 await this.postRepository.update(
     { _id: id },
-{ $push: { reaction: {reaction,userId } } })
+   { $push: { reaction: {
+    reaction:[undefined,null,""].includes(reaction)
+       ? REACTION.LIKE
+       :reaction,
+     userId 
+
+
+    }}})
 
 }
+else if([undefined,null,""].includes(reaction)){
+await this.postRepository.update(
+    { _id: id ,'reaction.userId':userId},
+{   $pull:{reaction:postExists.reaction[userReactedIndex]} })
+}
 
-
+//if user has reacted to post
 else{
     await this.postRepository.update(
         { _id: id ,'reaction.userId':userId},

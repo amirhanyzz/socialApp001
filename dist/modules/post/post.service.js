@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const post_Repository_1 = require("../../DB/model/posts/post.Repository");
-const factory_1 = require("./factory");
+const DB_1 = require("../../DB");
 const error_1 = require("../../utils/error");
+const factory_1 = require("./factory");
+const utils_1 = require("../../utils");
 class PostService {
     constructor() {
-        this.postRepository = new post_Repository_1.PostRepository();
+        this.postRepository = new DB_1.PostRepository();
         this.postFactoryService = new factory_1.PostFactoryService();
         this.createPost = async (req, res, next) => {
             //get data from request
@@ -31,10 +32,20 @@ class PostService {
             const userReactedIndex = postExists.reaction.findIndex((reaction) => {
                 return reaction.userId.toString() == userId.toString();
             });
+            //if user has not reacted to post
             if (userReactedIndex == -1) {
                 //repository>> react to post
-                await this.postRepository.update({ _id: id }, { $push: { reaction: { reaction, userId } } });
+                await this.postRepository.update({ _id: id }, { $push: { reaction: {
+                            reaction: [undefined, null, ""].includes(reaction)
+                                ? utils_1.REACTION.LIKE
+                                : reaction,
+                            userId
+                        } } });
             }
+            else if ([undefined, null, ""].includes(reaction)) {
+                await this.postRepository.update({ _id: id, 'reaction.userId': userId }, { $pull: { reaction: postExists.reaction[userReactedIndex] } });
+            }
+            //if user has reacted to post
             else {
                 await this.postRepository.update({ _id: id, 'reaction.userId': userId }, { "reaction.$.reaction": reaction });
             }

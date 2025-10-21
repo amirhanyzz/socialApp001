@@ -2,19 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postSchema = void 0;
 const mongoose_1 = require("mongoose");
-const enum_1 = require("../../../utils/common/enum");
-const reactionSchema = new mongoose_1.Schema({
-    reaction: {
-        type: Number,
-        enum: enum_1.REACTION,
-        default: enum_1.REACTION.LIKE
-    },
-    userId: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    }
-}, { timestamps: true });
+const common_1 = require("../common");
 /////////////////////////////////////////////
 exports.postSchema = new mongoose_1.Schema({
     userId: {
@@ -32,7 +20,7 @@ exports.postSchema = new mongoose_1.Schema({
         }
     },
     reaction: [
-        reactionSchema
+        common_1.reactionSchema
     ],
     attachments: {
         type: [mongoose_1.Schema.Types.ObjectId],
