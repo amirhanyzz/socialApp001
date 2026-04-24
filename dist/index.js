@@ -10,4 +10,7 @@ const dotenv_1 = require("dotenv");
 const app = (0, express_1.default)();
 const port = 3000;
 (0, app_controller_1.bootstrap)(app, express_1.default);
+app.get("/", (req, res) => {
+    res.send("API is working 🚀");
+});
 app.listen(port, () => console.log(`Server running on port ${port}`));
