@@ -6,8 +6,11 @@ const app = express()
 const port = 3000
 bootstrap(app,express)
 
-app.get("/", (req, res) => {
-  res.send("API is working 🚀");
+app.use("/", (req, res) => {
+  res.json({
+    message: "API is running 🚀",
+    success: true
+  });
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
