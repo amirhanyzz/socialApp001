@@ -4,10 +4,9 @@
   "main": "./dist/index.js",
   "type": "commonjs",
   "scripts": {
-  "build": "tsc",
-  "start": "node dist/index.js",
-  "start:dev": "concurrently \"tsc --watch\" \"node --watch .\""
-  
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:dev": "concurrently \"tsc --watch\" \"node --watch .\""
   },
   "keywords": [],
   "author": "",
@@ -25,9 +24,10 @@
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.5.2",
+    "@types/node": "^24.12.2",
     "@types/nodemailer": "^7.0.2",
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "typescript": "^6.0.3"
   },
   "repository": {
     "type": "git",
