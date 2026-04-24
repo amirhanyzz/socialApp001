@@ -6,7 +6,7 @@ const app = express()
 const port = 3000
 bootstrap(app,express)
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.json({
     message: "API is running 🚀",
     success: true
